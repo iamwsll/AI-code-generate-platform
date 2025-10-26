@@ -4,4 +4,3 @@ alwaysApply: true
 # 代码要求
 - 使用vue3的组合式API语法
 - 使用ant-design-vue组件库
-- 要求script标签在template标签上方
