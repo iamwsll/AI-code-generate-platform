@@ -1,141 +1,101 @@
+<template>
+  <a-layout-header class="header">
+    <a-row :wrap="false">
+      <!-- 左侧：Logo和标题 -->
+      <a-col flex="200px">
+        <RouterLink to="/">
+          <div class="header-left">
+            <img class="logo" src="@/assets/logo.png" alt="Logo" />
+            <h1 class="site-title">零代码生成平台</h1>
+          </div>
+        </RouterLink>
+      </a-col>
+      <!-- 中间：导航菜单 -->
+      <a-col flex="auto">
+        <a-menu
+          v-model:selectedKeys="selectedKeys"
+          mode="horizontal"
+          :items="menuItems"
+          @click="handleMenuClick"
+        />
+      </a-col>
+      <!-- 右侧：用户操作区域 -->
+      <a-col>
+        <div class="user-login-status">
+          <a-button type="primary">登录</a-button>
+        </div>
+      </a-col>
+    </a-row>
+  </a-layout-header>
+</template>
+
 <script setup lang="ts">
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { MenuProps } from 'ant-design-vue'
 
 const router = useRouter()
-
 // 当前选中菜单
-const selectedKeys = ref<string[]>([router.currentRoute.value.path])
-
+const selectedKeys = ref<string[]>(['/'])
 // 监听路由变化，更新当前选中菜单
-router.afterEach((to) => {
+router.afterEach((to, from, next) => {
   selectedKeys.value = [to.path]
 })
 
 // 菜单配置项
-const menuItems = ref<MenuProps['items']>([
+const menuItems = ref([
   {
     key: '/',
     label: '首页',
+    title: '首页',
   },
   {
     key: '/about',
     label: '关于',
+    title: '关于我们',
+  },
+  {
+    key: 'others',
+    label: h('a', { href: 'https://iamwsll.cn', target: '_blank' }, 'iamwsll'),
+    title: 'iamwsll',
   },
 ])
 
-const handleMenuClick = (e: { key: string }) => {
-  router.push(e.key)
+// 处理菜单点击
+const handleMenuClick: MenuProps['onClick'] = (e) => {
+  const key = e.key as string
+  selectedKeys.value = [key]
+  // 跳转到对应页面
+  if (key.startsWith('/')) {
+    router.push(key)
+  }
 }
 </script>
-
-<template>
-  <a-layout-header class="header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img class="logo" src="@/assets/logo.png" alt="Logo" />
-        <span class="title">零代码生成平台</span>
-      </div>
-      <a-menu
-        v-model:selectedKeys="selectedKeys"
-        mode="horizontal"
-        class="menu"
-        :items="menuItems"
-        @click="handleMenuClick"
-      />
-      <div class="user-section">
-        <a-button type="primary">登录</a-button>
-      </div>
-    </div>
-  </a-layout-header>
-</template>
 
 <style scoped>
 .header {
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 0 50px;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  padding: 0 24px;
 }
 
-.header-content {
+.header-left {
   display: flex;
   align-items: center;
-  height: 64px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.logo-section {
-  display: flex;
-  align-items: center;
-  margin-right: 40px;
-  flex-shrink: 0;
+  gap: 12px;
 }
 
 .logo {
-  height: 40px;
-  width: 40px;
-  margin-right: 12px;
+  height: 48px;
+  width: 48px;
 }
 
-.title {
+.site-title {
+  margin: 0;
   font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  white-space: nowrap;
+  color: #1890ff;
 }
 
-.menu {
-  flex: 1;
-  border: none;
-  line-height: 64px;
-}
-
-.user-section {
-  margin-left: auto;
-  flex-shrink: 0;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .header {
-    padding: 0 20px;
-  }
-
-  .logo-section {
-    margin-right: 20px;
-  }
-
-  .logo {
-    height: 32px;
-    width: 32px;
-    margin-right: 8px;
-  }
-
-  .title {
-    font-size: 16px;
-  }
-
-  .menu {
-    display: none;
-  }
-}
-
-@media (max-width: 576px) {
-  .header {
-    padding: 0 16px;
-  }
-
-  .logo-section {
-    margin-right: 10px;
-  }
-
-  .title {
-    font-size: 14px;
-  }
+.ant-menu-horizontal {
+  border-bottom: none !important;
 }
 </style>

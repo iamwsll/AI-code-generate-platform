@@ -1,55 +1,38 @@
-<script setup lang="ts"></script>
 <template>
   <a-layout-footer class="footer">
     <div class="footer-content">
-      <p>
-        零代码生成平台 by
-        <a href="https://iamwsll.cn" target="_blank" rel="noopener noreferrer">iamwsll</a>
+      <p class="copyright">
+        <a
+          href="https://iamwsll.cn"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="author-link"
+        >
+          零代码生成平台 by iamwsll
+        </a>
       </p>
     </div>
   </a-layout-footer>
 </template>
 
+<script setup lang="ts">
+// 无需额外的响应式数据
+</script>
+
 <style scoped>
 .footer {
-  background: #001529;
-  color: rgba(255, 255, 255, 0.65);
+  background: #efefef;
   text-align: center;
-  padding: 24px 50px;
-  position: relative;
+  padding: 20px;
+  position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
 }
 
-.footer-content {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.footer-content p {
+.copyright {
   margin: 0;
+  color: #666;
   font-size: 14px;
-}
-
-.footer-content a {
-  color: #1890ff;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.footer-content a:hover {
-  color: #40a9ff;
-  text-decoration: underline;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .footer {
-    padding: 20px;
-  }
-
-  .footer-content p {
-    font-size: 12px;
-  }
 }
 </style>
