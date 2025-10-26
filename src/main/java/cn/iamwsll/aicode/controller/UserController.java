@@ -4,9 +4,12 @@ import cn.iamwsll.aicode.common.BaseResponse;
 import cn.iamwsll.aicode.common.ResultUtils;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.exception.ThrowUtils;
+import cn.iamwsll.aicode.model.dto.UserLoginRequest;
 import cn.iamwsll.aicode.model.dto.UserRegisterRequest;
+import cn.iamwsll.aicode.model.vo.LoginUserVO;
 import com.mybatisflex.core.paginate.Page;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.iamwsll.aicode.model.entity.User;
 import cn.iamwsll.aicode.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 /**
@@ -34,18 +38,61 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param userRegisterRequest 注册请求体
-     * @return 注册结果
+     * @return 注册结果(用户ID)
      */
     @PostMapping("register")
     public BaseResponse<Long> register(@RequestBody UserRegisterRequest userRegisterRequest) {
-        ThrowUtils.throwIf(userRegisterRequest==null, ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(userRegisterRequest == null, ErrorCode.PARAMS_ERROR);
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         long result = userService.userRegister(userAccount, userPassword, checkPassword);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 用户登录
+     *
+     * @param userLoginRequest 登录请求体
+     * @param request          请求
+     * @return 登录结果
+     */
+    @PostMapping("login")
+    public BaseResponse<LoginUserVO> login(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(userLoginRequest == null, ErrorCode.PARAMS_ERROR);
+        String userAccount = userLoginRequest.getUserAccount();
+        String userPassword = userLoginRequest.getUserPassword();
+        LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        return ResultUtils.success(loginUserVO);
+    }
+
+    /**
+     * 获取当前登录用户。
+     *
+     * @param request 请求
+     * @return 当前登录用户
+     */
+    @GetMapping("/get/login")
+    public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(userService.getLoginUserVO(loginUser));
+    }
+
+    /**
+     * 用户注销
+     *
+     * @param request 请求
+     * @return 注销结果
+     */
+    @PostMapping("/logout")
+    public BaseResponse<Boolean> userLogout(HttpServletRequest request) {
+        ThrowUtils.throwIf(request == null, ErrorCode.PARAMS_ERROR);
+        boolean result = userService.userLogout(request);
+        return ResultUtils.success(result);
+    }
+
     /**
      * 保存用户。
      *
