@@ -4,26 +4,29 @@ import { useRouter } from 'vue-router'
 import type { MenuProps } from 'ant-design-vue'
 
 const router = useRouter()
-const selectedKeys = ref<string[]>(['home'])
+
+// 当前选中菜单
+const selectedKeys = ref<string[]>([router.currentRoute.value.path])
+
+// 监听路由变化，更新当前选中菜单
+router.afterEach((to) => {
+  selectedKeys.value = [to.path]
+})
 
 // 菜单配置项
 const menuItems = ref<MenuProps['items']>([
   {
-    key: 'home',
+    key: '/',
     label: '首页',
   },
   {
-    key: 'about',
+    key: '/about',
     label: '关于',
   },
 ])
 
 const handleMenuClick = (e: { key: string }) => {
-  if (e.key === 'home') {
-    router.push('/')
-  } else if (e.key === 'about') {
-    router.push('/about')
-  }
+  router.push(e.key)
 }
 </script>
 
