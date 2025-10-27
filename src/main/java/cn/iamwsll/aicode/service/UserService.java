@@ -1,9 +1,14 @@
 package cn.iamwsll.aicode.service;
 
+import cn.iamwsll.aicode.model.dto.UserQueryRequest;
 import cn.iamwsll.aicode.model.vo.LoginUserVO;
+import cn.iamwsll.aicode.model.vo.UserVO;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
 import cn.iamwsll.aicode.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 /**
  * 用户 服务层。
@@ -54,11 +59,35 @@ public interface UserService extends IService<User> {
     User getLoginUser(HttpServletRequest request);
 
     /**
+     * 获取脱敏后的用户信息
+     * - @param request
+     * - @return UserVO
+     */
+    UserVO getUserVO(User user);
+
+    /**
+     * - 获取脱敏后的用户信息列表
+     *
+     * @param userList
+     * @return List<UserVO>
+     */
+    List<UserVO> getUserVOList(List<User> userList);
+
+    /**
      * - 用户注销
      * - @param request
      * - @return
      */
     boolean userLogout(HttpServletRequest request);
+
+    /**
+     * - 根据用户信息构建查询条件
+     *
+     * @param userQueryRequest
+     * @return
+     */
+    QueryWrapper getQueryWrapper(UserQueryRequest userQueryRequest);
+
 
     /**
      * - 获取加密后的密码
