@@ -22,7 +22,15 @@
       <!-- 右侧：用户操作区域 -->
       <a-col>
         <div class="user-login-status">
-          <a-button type="primary">登录</a-button>
+          <div v-if="loginUserStore.loginUser.id">
+            <a-space>
+              <a-avatar :src="loginUserStore.loginUser.userAvatar" />
+              {{loginUserStore.loginUser.userName ?? '默认用户名'}}
+            </a-space>
+          </div>
+          <div v-else>
+            <a-button type="primary" href="/user/login">登录</a-button>
+          </div>
         </div>
       </a-col>
     </a-row>
@@ -33,6 +41,9 @@
 import { h, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { MenuProps } from 'ant-design-vue'
+import { useLoginUserStore } from '@/stores/loginUser.ts'
+
+const loginUserStore = useLoginUserStore()
 
 const router = useRouter()
 // 当前选中菜单
