@@ -143,15 +143,15 @@ const doDelete = async (id: string) => {
     okText: '确认',
     cancelText: '取消',
     onOk: async () => {
-      const res = await deleteUser({ id: id as any})
+      const res = await deleteUser({ id: id as any })
       if (res.data.code === 0) {
         message.success('删除成功')
         // 刷新数据
         await fetchData()
       } else {
-        message.error('删除失败,'+ res.data.message)
+        message.error('删除失败,' + res.data.message)
       }
-    }
+    },
   })
 }
 // 页面加载时请求一次
