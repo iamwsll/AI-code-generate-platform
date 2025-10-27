@@ -3,7 +3,7 @@
     <div class="footer-content">
       <p class="copyright">
         <a
-          href="https://iamwsll.cn"
+          href="https://github.com/iamwsll/AI-code-generate-platform"
           target="_blank"
           rel="noopener noreferrer"
           class="author-link"
