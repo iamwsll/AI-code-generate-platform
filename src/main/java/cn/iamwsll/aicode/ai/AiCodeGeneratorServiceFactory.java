@@ -1,6 +1,7 @@
 package cn.iamwsll.aicode.ai;
 
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.service.AiServices;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,9 @@ public class AiCodeGeneratorServiceFactory {
     @Resource
     private ChatModel chatModel;
 
+    @Resource
+    private StreamingChatModel steamingChatModel;
+
     /**
      * 创建AI代码生成服务
      *
@@ -22,6 +26,10 @@ public class AiCodeGeneratorServiceFactory {
      */
     @Bean
     public AiCodeGeneratorService aiCodeGeneratorService() {
-        return AiServices.create(AiCodeGeneratorService.class, chatModel);//这里给AiCodeGeneratorService创建了一个代理对象
+        return AiServices.builder(AiCodeGeneratorService.class)
+                .chatModel(chatModel)
+                .streamingChatModel(steamingChatModel)
+                .build()
+                ;//这里给AiCodeGeneratorService创建了一个代理对象
     }
 }

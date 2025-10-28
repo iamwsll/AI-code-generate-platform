@@ -37,3 +37,10 @@ langchain4j:
       max-tokens: 8192 # 模型输出最大长度,避免json截断.如果不设置,那么默认4096
       strict-json-schema: true #deepseek模型开启严格json schema校验的方式
       response-format: json_object # deepseek模型开启严格json schema校验的方式
+    streaming-chat-model:
+      base-url: https://api.deepseek.com
+      api-key: <your_api_key_here>
+      model-name: deepseek-chat
+      max-tokens: 8192
+      log-requests: true
+      log-responses: true
