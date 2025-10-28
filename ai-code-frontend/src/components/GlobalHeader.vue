@@ -77,7 +77,7 @@ const originItems = [
   },
   {
     key: 'others',
-    label: h('a', { href: 'https://iamwsll.cn', target: '_blank' }, 'iamwsll是谁'),
+    label: h('a', { href: 'https://iamwsll.cn', target: '_blank' }, 'iamwsll是谁?'),
     title: 'iamwsll',
   },
 ]
