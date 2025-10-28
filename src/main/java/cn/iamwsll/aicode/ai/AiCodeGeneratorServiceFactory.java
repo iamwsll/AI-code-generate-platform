@@ -22,6 +22,6 @@ public class AiCodeGeneratorServiceFactory {
      */
     @Bean
     public AiCodeGeneratorService aiCodeGeneratorService() {
-        return AiServices.create(AiCodeGeneratorService.class, chatModel);
+        return AiServices.create(AiCodeGeneratorService.class, chatModel);//这里给AiCodeGeneratorService创建了一个代理对象
     }
 }
