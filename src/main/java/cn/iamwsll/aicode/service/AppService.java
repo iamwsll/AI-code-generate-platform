@@ -2,9 +2,11 @@ package cn.iamwsll.aicode.service;
 
 import cn.iamwsll.aicode.model.dto.app.AppQueryRequest;
 import cn.iamwsll.aicode.model.entity.App;
+import cn.iamwsll.aicode.model.entity.User;
 import cn.iamwsll.aicode.model.vo.AppVO;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -35,4 +37,13 @@ public interface AppService extends IService<App> {
      * @return
      */
     List<AppVO> getAppVOList(List<App> appList);
+
+    /**
+     * 与应用进行聊天，生成代码
+     * @param appId
+     * @param message
+     * @param loginUser
+     * @return
+     */
+    Flux<String> chatToGenCode(Long appId, String message, User loginUser);
 }

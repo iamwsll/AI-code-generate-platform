@@ -18,13 +18,13 @@ class AiCodeGeneratorFacadeTest {
     private AiCodeGeneratorFacade aiCodeGeneratorFacade;
     @Test
     void generateAndSaveCode() {
-        File file = aiCodeGeneratorFacade.generateAndSaveCode("生成一个登录页面", CodeGenTypeEnum.MULTI_FILE);
+        File file = aiCodeGeneratorFacade.generateAndSaveCode("生成一个登录页面", CodeGenTypeEnum.MULTI_FILE,1L);
         Assertions.assertTrue(file.exists());
     }
 
     @Test
     void generateAndSaveCodeStream() {
-        Flux<String> result = aiCodeGeneratorFacade.generateAndSaveCodeStream("生成一个登录页面,尽可能短", CodeGenTypeEnum.MULTI_FILE);
+        Flux<String> result = aiCodeGeneratorFacade.generateAndSaveCodeStream("生成一个登录页面,尽可能短", CodeGenTypeEnum.MULTI_FILE,1L);
         //阻塞等待所有数据输出完成
 //        result.subscribe(System.out::println);
 //        Assertions.assertNotNull(result);
