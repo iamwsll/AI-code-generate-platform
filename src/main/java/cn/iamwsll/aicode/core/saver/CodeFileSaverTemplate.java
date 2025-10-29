@@ -3,6 +3,7 @@ package cn.iamwsll.aicode.core.saver;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.iamwsll.aicode.constant.AppConstant;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.model.enums.CodeGenTypeEnum;
@@ -18,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 public abstract class CodeFileSaverTemplate<T> {
 
     // 文件保存根目录
-    private static final String FILE_SAVE_ROOT_DIR = System.getProperty("user.dir") + "/tmp/code_output";
+    private static final String FILE_SAVE_ROOT_DIR = AppConstant.CODE_OUTPUT_ROOT_DIR;
 
     /**
      * 保存代码文件

@@ -12,6 +12,7 @@ import cn.iamwsll.aicode.constant.UserConstant;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.exception.ThrowUtils;
+import cn.iamwsll.aicode.model.dto.app.AppDeployRequest;
 import cn.iamwsll.aicode.model.dto.user.AppAdminUpdateRequest;
 import cn.iamwsll.aicode.model.dto.app.AppAddRequest;
 import cn.iamwsll.aicode.model.dto.app.AppQueryRequest;
@@ -327,4 +328,24 @@ public class AppController {
                                 .build()
                 ));
     }
+
+    /**
+     * 应用部署
+     *
+     * @param appDeployRequest 部署请求
+     * @param request          请求
+     * @return 部署 URL
+     */
+    @PostMapping("/deploy")
+    public BaseResponse<String> deployApp(@RequestBody AppDeployRequest appDeployRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(appDeployRequest == null, ErrorCode.PARAMS_ERROR);
+        Long appId = appDeployRequest.getAppId();
+        ThrowUtils.throwIf(appId == null || appId <= 0, ErrorCode.PARAMS_ERROR, "应用 ID 不能为空");
+        // 获取当前登录用户
+        User loginUser = userService.getLoginUser(request);
+        // 调用服务部署应用
+        String deployUrl = appService.deployApp(appId, loginUser);
+        return ResultUtils.success(deployUrl);
+    }
+
 }
