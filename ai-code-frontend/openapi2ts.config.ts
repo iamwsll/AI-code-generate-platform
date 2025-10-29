@@ -1,6 +1,6 @@
-//根据后端请求地址和前端代码路径生成ts类型文件
+// 根据后端接口生成前端请求和 TS 模型代码
 export default {
   requestLibPath: "import request from '@/request'",
-    schemaPath: 'http://localhost:8123/api/v3/api-docs',
-    serversPath: './src',
+  schemaPath: 'http://localhost:8123/api/v3/api-docs',
+  serversPath: './src',
 }
