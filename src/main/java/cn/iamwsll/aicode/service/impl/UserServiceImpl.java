@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
-import cn.iamwsll.aicode.model.dto.UserQueryRequest;
+import cn.iamwsll.aicode.model.dto.user.UserQueryRequest;
 import cn.iamwsll.aicode.model.enums.UserRoleEnum;
 import cn.iamwsll.aicode.model.vo.LoginUserVO;
 import cn.iamwsll.aicode.model.vo.UserVO;

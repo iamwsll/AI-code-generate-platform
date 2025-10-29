@@ -1,4 +1,4 @@
-package cn.iamwsll.aicode.model.dto;
+package cn.iamwsll.aicode.model.dto.user;
 
 import cn.iamwsll.aicode.common.PageRequest;
 import lombok.Data;

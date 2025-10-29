@@ -11,7 +11,7 @@ import cn.iamwsll.aicode.constant.UserConstant;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.exception.ThrowUtils;
-import cn.iamwsll.aicode.model.dto.AppAdminUpdateRequest;
+import cn.iamwsll.aicode.model.dto.user.AppAdminUpdateRequest;
 import cn.iamwsll.aicode.model.dto.app.AppAddRequest;
 import cn.iamwsll.aicode.model.dto.app.AppQueryRequest;
 import cn.iamwsll.aicode.model.dto.app.AppUpdateRequest;

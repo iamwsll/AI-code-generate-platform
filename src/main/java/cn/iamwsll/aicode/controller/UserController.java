@@ -9,7 +9,7 @@ import cn.iamwsll.aicode.constant.UserConstant;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.exception.ThrowUtils;
-import cn.iamwsll.aicode.model.dto.*;
+import cn.iamwsll.aicode.model.dto.user.*;
 import cn.iamwsll.aicode.model.vo.LoginUserVO;
 import cn.iamwsll.aicode.model.vo.UserVO;
 import com.mybatisflex.core.paginate.Page;
