@@ -1,6 +1,7 @@
 package cn.iamwsll.aicode.core;
 
 import cn.iamwsll.aicode.ai.AiCodeGeneratorService;
+import cn.iamwsll.aicode.ai.AiCodeGeneratorServiceFactory;
 import cn.iamwsll.aicode.ai.model.HtmlCodeResult;
 import cn.iamwsll.aicode.ai.model.MultiFileCodeResult;
 import cn.iamwsll.aicode.core.parser.CodeParserExecutor;
@@ -10,9 +11,7 @@ import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.model.enums.CodeGenTypeEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.SmartValidator;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
@@ -26,7 +25,7 @@ import java.io.File;
 public class AiCodeGeneratorFacade {
 
     @Resource
-    private AiCodeGeneratorService aiCodeGeneratorService;
+    private AiCodeGeneratorServiceFactory aiCodeGeneratorServiceFactory;
 
     /**
      * 统一根据用户输入和代码生成类型生成并保存代码
@@ -40,6 +39,8 @@ public class AiCodeGeneratorFacade {
         if (codeGenTypeEnum == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "生成类型为空");
         }
+        //获取对应的AI代码生成服务
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
         return switch (codeGenTypeEnum) {
             case HTML -> {
                 HtmlCodeResult htmlCodeResult = aiCodeGeneratorService.generateHTMLCode(userMessage);
@@ -66,6 +67,8 @@ public class AiCodeGeneratorFacade {
         if (codeGenTypeEnum == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "生成类型为空");
         }
+        //获取对应的AI代码生成服务
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
         return switch (codeGenTypeEnum) {
             case HTML -> {
                 Flux<String> codeStream = aiCodeGeneratorService.generateHTMLCodeStream(userMessage);
