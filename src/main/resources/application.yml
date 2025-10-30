@@ -1,6 +1,11 @@
 spring:
   application:
     name: ai-code-backend
+  #session配置 注:这是指后端的session过期时间
+  session:
+    store-type: redis #session存在redis里
+    timeout: 2592000 #30天过期
+
   #mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,7 +25,9 @@ server:
   port: 8123
   servlet:
     context-path: /api
-
+    session:
+      cookie:
+        max-age: 2592000 #chookie30天过期 最好要和session过期时间一致.注:这是前端的
 #springdoc-openapi
 springdoc:
   group-configs:
