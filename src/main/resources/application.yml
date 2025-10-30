@@ -1,11 +1,19 @@
 spring:
   application:
     name: ai-code-backend
+  #mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ai_code
     username: root
     password: 123456
+  #redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      ttl: 3600 # seconds,该配置表示key的默认过期时间
   profiles:
     active: local
 server:
@@ -25,22 +33,29 @@ knife4j:
   setting:
     language:
 
-#以下是application-local.yml应该有的内容.
-langchain4j:
-  open-ai:
-    chat-model:
-      base-url: https://api.deepseek.com
-      api-key: <your_api_key_here>
-      model-name: deepseek-chat
-      log-requests: true
-      log-responses: true
-      max-tokens: 8192 # 模型输出最大长度,避免json截断.如果不设置,那么默认4096
-      strict-json-schema: true #deepseek模型开启严格json schema校验的方式
-      response-format: json_object # deepseek模型开启严格json schema校验的方式
-    streaming-chat-model:
-      base-url: https://api.deepseek.com
-      api-key: <your_api_key_here>
-      model-name: deepseek-chat
-      max-tokens: 8192
-      log-requests: true
-      log-responses: true
+#以下是application-local.yml应该有的内容.不注释也会使用application-local.yml的.
+#langchain4j:
+#  open-ai:
+#    chat-model:   #我们这里虽然给了这个配置,但是我们程序使用的其实是下面的流式模型,这里仅仅供展示
+#      base-url: https://api.deepseek.com
+#      api-key: <your_api_key_here>
+#      model-name: deepseek-chat
+#      log-requests: true
+#      log-responses: true
+#      max-tokens: 8192 # 模型输出最大长度,避免json截断.如果不设置,那么默认4096
+#      strict-json-schema: true #deepseek模型开启严格json schema校验的方式
+#      response-format: json_object # deepseek模型开启严格json schema校验的方式
+#    streaming-chat-model: #如果你想使用DeepSeek
+#      base-url: https://api.deepseek.com
+#      api-key: <your_api_key_here>
+#      model-name: deepseek-chat
+#      max-tokens: 8192
+#      log-requests: true
+#      log-responses: true
+#    streaming-chat-model: #如果你想使用Moonshot
+#      base-url: https://api.moonshot.cn/v1
+#      api-key: your api key
+#      model-name: kimi-k2-turbo-preview
+#      #      max-tokens: 8192
+#      log-requests: true
+#      log-responses: true
