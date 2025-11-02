@@ -1,5 +1,6 @@
 package cn.iamwsll.aicode.service;
 
+import cn.iamwsll.aicode.model.dto.app.AppAddRequest;
 import cn.iamwsll.aicode.model.dto.app.AppQueryRequest;
 import cn.iamwsll.aicode.model.entity.App;
 import cn.iamwsll.aicode.model.entity.User;
@@ -61,4 +62,12 @@ public interface AppService extends IService<App> {
      * @param appUrl
      */
     void generateAppScreenshotAsync(Long appId, String appUrl);
+
+    /**
+     * 创建应用
+     * @param appAddRequest
+     * @param loginUser
+     * @return
+     */
+    Long createApp(AppAddRequest appAddRequest, User loginUser);
 }
