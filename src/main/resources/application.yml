@@ -38,7 +38,7 @@ springdoc:
 knife4j:
   enable: true
   setting:
-    language:
+    language: zh_cn
 
 #以下是application-local.yml应该有的内容.不注释也会使用application-local.yml的.
 #langchain4j:
@@ -52,6 +52,7 @@ knife4j:
 #      max-tokens: 8192 # 模型输出最大长度,避免json截断.如果不设置,那么默认4096
 #      strict-json-schema: true #deepseek模型开启严格json schema校验的方式
 #      response-format: json_object # deepseek模型开启严格json schema校验的方式
+
 #    streaming-chat-model: #如果你想使用DeepSeek
 #      base-url: https://api.deepseek.com
 #      api-key: <your_api_key_here>
@@ -66,3 +67,10 @@ knife4j:
 #      #      max-tokens: 8192
 #      log-requests: true
 #      log-responses: true
+#      streaming-chat-model: #如果你想使用SiliconFlow
+#        base-url: https://api.siliconflow.cn/v1/chat/completions
+#        api-key: your api key
+#        model-name: Pro/deepseek-ai/DeepSeek-V3.2-Exp
+#        max-tokens: 8192
+#        log-requests: true
+#        log-responses: true
