@@ -7,7 +7,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -27,18 +26,18 @@ import java.util.UUID;
 @Slf4j
 public class WebScreenshotUtils {
 
-    private static final WebDriver webDriver;
+//    private static final WebDriver webDriver;
 
-    static {
-        final int DEFAULT_WIDTH = 1600;
-        final int DEFAULT_HEIGHT = 900;
-        webDriver = initChromeDriver(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
-    @PreDestroy
-    public void destroy() {
-        webDriver.quit();
-    }
+//    static {
+        final static int DEFAULT_WIDTH = 1600;
+        final static int DEFAULT_HEIGHT = 900;
+//        webDriver = initChromeDriver(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+//    }
+//
+//    @PreDestroy
+//    public void destroy() {
+//        webDriver.quit();
+//    }
 
     /**
      * 生成网页截图
@@ -48,6 +47,7 @@ public class WebScreenshotUtils {
      * @return 压缩后的截图文件路径，失败返回null
      */
     public static String saveWebPageScreenshot(String webUrl) {
+        WebDriver driver = initChromeDriver(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         if (StrUtil.isBlank(webUrl)) {
             log.error("网页URL不能为空");
             return null;
@@ -62,11 +62,11 @@ public class WebScreenshotUtils {
             // 原始截图文件路径
             String imageSavePath = rootPath + File.separator + RandomUtil.randomNumbers(5) + IMAGE_SUFFIX;
             // 访问网页
-            webDriver.get(webUrl);
+            driver.get(webUrl);
             // 等待页面加载完成
-            waitForPageLoad(webDriver);
+            waitForPageLoad(driver);
             // 截图
-            byte[] screenshotBytes = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
+            byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             // 保存原始图片
             saveImage(screenshotBytes, imageSavePath);
             log.info("原始截图保存成功: {}", imageSavePath);
@@ -81,6 +81,9 @@ public class WebScreenshotUtils {
         } catch (Exception e) {
             log.error("网页截图失败: {}", webUrl, e);
             return null;
+        }finally {
+            // 关闭驱动
+            driver.quit();
         }
     }
 
