@@ -74,3 +74,10 @@ knife4j:
 #        max-tokens: 8192
 #        log-requests: true
 #        log-responses: true
+
+#aliyun:
+#  oss:
+#    endpoint: your endpoint
+#    access-key-id: your access key id
+#    access-key-secret: your access key secret
+#    bucket-name: your bucket name
