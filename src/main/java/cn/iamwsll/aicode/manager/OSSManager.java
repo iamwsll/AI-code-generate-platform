@@ -49,7 +49,7 @@ public class OSSManager {
         PutObjectResult result = putObject(key, file);
         if (result != null) {
             // 构建访问URL
-            String url = String.format("%s%s", ossClientConfig.getEndpoint(), key);
+            String url ="https://"+ossClientConfig.getBucketName()+"." + ossClientConfig.getEndpoint()+"/"+ key;
             log.info("文件上传OSS成功: {} -> {}", file.getName(), url);
             return url;
         } else {
