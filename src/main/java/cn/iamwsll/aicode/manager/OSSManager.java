@@ -45,7 +45,12 @@ public class OSSManager {
      * @return 文件的访问URL，失败返回null
      */
     public String uploadFile(String key, File file) {
+        log.info("开始上传文件到OSS: {} -> {}", file.getName(), key);
         // 上传文件
+        if(key.startsWith("/")||key.startsWith("\\")){
+            key = key.substring(1);
+            log.warn("调整上传Key，去除开头斜杠: {}", key);
+        }
         PutObjectResult result = putObject(key, file);
         if (result != null) {
             // 构建访问URL
