@@ -1,6 +1,6 @@
 package cn.iamwsll.aicode.ai;
 
-import cn.iamwsll.aicode.ai.tools.FileWriteTool;
+import cn.iamwsll.aicode.ai.tools.*;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.model.enums.CodeGenTypeEnum;
@@ -41,6 +41,8 @@ public class AiCodeGeneratorServiceFactory {
     @Resource
     private ChatHistoryService chatHistoryService;
 
+    @Resource
+    private ToolManager toolManager;
     /**
      * AI 服务实例缓存
      * 缓存策略：
@@ -75,7 +77,7 @@ public class AiCodeGeneratorServiceFactory {
      */
     @Deprecated
     public AiCodeGeneratorService getAiCodeGeneratorService(long appId) {
-        throw new BusinessException(ErrorCode.SYSTEM_ERROR,"调用了已经弃用的方法");
+        throw new BusinessException(ErrorCode.SYSTEM_ERROR, "调用了已经弃用的方法");
     }
 
     /**
@@ -96,6 +98,7 @@ public class AiCodeGeneratorServiceFactory {
 
     /**
      * 创建新的 AI 服务实例
+     *
      * @Param appId 应用 ID
      * @Param codeGenType 代码生成类型
      */
@@ -116,7 +119,7 @@ public class AiCodeGeneratorServiceFactory {
             case VUE_PROJECT -> AiServices.builder(AiCodeGeneratorService.class)
                     .streamingChatModel(reasoningStreamingChatModel)
                     .chatMemoryProvider(memoryId -> chatMemory)
-                    .tools(new FileWriteTool())
+                    .tools(toolManager.getAllTools())
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                     ))
