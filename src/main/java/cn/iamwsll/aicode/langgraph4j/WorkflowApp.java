@@ -16,7 +16,7 @@ import static org.bsc.langgraph4j.StateGraph.END;
 import static org.bsc.langgraph4j.StateGraph.START;
 
 /**
- * 实际上使用的工作流
+ * 实际上使用的工作流(模拟状态流转)
  */
 @Slf4j
 public class WorkflowApp {
