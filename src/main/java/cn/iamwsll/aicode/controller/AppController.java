@@ -342,7 +342,6 @@ public class AppController {
     }
 
 
-
     /**
      * 下载应用代码
      *
@@ -361,7 +360,7 @@ public class AppController {
         ThrowUtils.throwIf(app == null, ErrorCode.NOT_FOUND_ERROR, "应用不存在");
         // 3. 权限校验：只有应用创建者可以下载代码
         User loginUser = userService.getLoginUser(request);
-        if (!app.getUserId().equals(loginUser.getId())&& !UserConstant.ADMIN_ROLE.equals(loginUser.getUserRole())) {
+        if (!app.getUserId().equals(loginUser.getId()) && !UserConstant.ADMIN_ROLE.equals(loginUser.getUserRole())) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "无权限下载该应用代码");
         }
         // 4. 构建应用代码目录路径（生成目录，非部署目录）
