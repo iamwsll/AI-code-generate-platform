@@ -1,6 +1,7 @@
 package cn.iamwsll.aicode.langgraph4j.state;
 
 import cn.iamwsll.aicode.langgraph4j.model.ImageResource;
+import cn.iamwsll.aicode.langgraph4j.model.QualityResult;
 import cn.iamwsll.aicode.model.enums.CodeGenTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,6 +67,12 @@ public class WorkflowContext implements Serializable {
      * 构建成功的目录
      */
     private String buildResultDir;
+
+    /**
+     * 质量检查结果
+     */
+    private QualityResult qualityResult;
+
 
     /**
      * 错误信息
