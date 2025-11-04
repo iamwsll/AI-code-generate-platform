@@ -42,11 +42,67 @@ knife4j:
     language: zh_cn
 
 #以下是application-local.yml应该有的内容.不注释也会使用application-local.yml的.
+
 #langchain4j:
 #  open-ai:
-#    chat-model:   #我们这里虽然给了这个配置,但是我们程序使用的其实是下面的流式模型,这里仅仅供展示
+#    chat-model:
+#      base-url: https://api.siliconflow.cn/v1
+#      api-key: your api key
+#      model-name: deepseek-ai/DeepSeek-V3.2-Exp
+#      log-requests: true
+#      log-responses: true
+#      max-tokens: 8192 # 模型输出最大长度,避免json截断.如果不设置,那么默认4096
+#    #      strict-json-schema: true
+#    #      response-format: json_object #这两条不能加,因为只需要返回枚举类型时,这里开启结构化输出就会报错.(这是因为结构化输出不兼容某些类型,比如枚举类)
+#
+#    # 智能路由 AI 模型配置（用于简单的分类任务）
+#    routing-chat-model:
+#      base-url: https://api.siliconflow.cn/v1
+#      api-key: your api key
+#      model-name: Qwen/Qwen3-30B-A3B-Instruct-2507
+#    #      log-requests: true
+#    #      log-responses: true
+#    streaming-chat-model:
+#      base-url: https://api.siliconflow.cn/v1
+#      api-key: your api key
+#      model-name: Qwen/Qwen3-Coder-30B-A3B-Instruct
+#      #      max-tokens: 8192
+#      log-requests: true
+#      log-responses: true
+#    # 推理 AI 模型配置（用于复杂的推理任务）
+#    reasoning-streaming-chat-model:
+#      base-url: https://api.siliconflow.cn/v1
+#      api-key: your api key
+#      model-name: Qwen/Qwen3-Coder-30B-A3B-Instruct
+#      #      max-tokens: 8192
+#      temperature: 0.1
+#      log-requests: true
+#      log-responses: true
+#
+#
+#aliyun:
+#  oss:
+#    endpoint: oss-cn-hangzhou.aliyuncs.com
+#    access-key-id: your access key id
+#    access-key-secret: your access key secret
+#    bucket-name: wsll-ai-code
+#    region: cn-hangzhou
+#
+#pexels:
+#  api-key: your pexels api key
+#
+#dashscope:
+#  api-key: your dashscope api key
+#  image-model: wan2.2-t2i-flash
+
+
+
+
+# 以下则是经过测试的一些可用模型配置示例,可以直接使用.
+
+#    chat-model:
 #      base-url: https://api.deepseek.com
-#      api-key: <your_api_key_here>
+#      api-key: your api key
 #      model-name: deepseek-chat
 #      log-requests: true
 #      log-responses: true
@@ -54,31 +110,33 @@ knife4j:
 #      strict-json-schema: true #deepseek模型开启严格json schema校验的方式
 #      response-format: json_object # deepseek模型开启严格json schema校验的方式
 
-#    streaming-chat-model: #如果你想使用DeepSeek
+#    streaming-chat-model:
+#      base-url: https://api.moonshot.cn/v1
+#      api-key: your api key
+#      model-name: kimi-k2-turbo-preview
+##      max-tokens: 8192
+#      log-requests: true
+#      log-responses: true
+#    streaming-chat-model:
 #      base-url: https://api.deepseek.com
-#      api-key: <your_api_key_here>
+#      api-key: your api key
 #      model-name: deepseek-chat
 #      max-tokens: 8192
 #      log-requests: true
 #      log-responses: true
-#    streaming-chat-model: #如果你想使用Moonshot
-#      base-url: https://api.moonshot.cn/v1
+#    streaming-chat-model:
+#      base-url: https://api.siliconflow.cn/v1
 #      api-key: your api key
-#      model-name: kimi-k2-turbo-preview
-#      #      max-tokens: 8192
+#      model-name: deepseek-ai/DeepSeek-V3.2-Exp
+#      max-tokens: 8192
 #      log-requests: true
 #      log-responses: true
-#      streaming-chat-model: #如果你想使用SiliconFlow
-#        base-url: https://api.siliconflow.cn/v1/chat/completions
-#        api-key: your api key
-#        model-name: Pro/deepseek-ai/DeepSeek-V3.2-Exp
-#        max-tokens: 8192
-#        log-requests: true
-#        log-responses: true
-
-#aliyun:
-#  oss:
-#    endpoint: your endpoint
-#    access-key-id: your access key id
-#    access-key-secret: your access key secret
-#    bucket-name: your bucket name
+#    # 推理 AI 模型配置（用于复杂的推理任务）
+#    reasoning-streaming-chat-model:
+#      base-url: https://api.siliconflow.cn/v1
+#      api-key: your api key
+#      model-name: deepseek-ai/DeepSeek-V3.2-Exp
+#      max-tokens: 8192
+#      temperature: 0.1
+#      log-requests: true
+#      log-responses: true
