@@ -19,6 +19,7 @@ spring:
       port: 6379
       password:
       ttl: 3600 # seconds,该配置表示key的默认过期时间
+      database: 0
   profiles:
     active: local
 server:
