@@ -1,6 +1,7 @@
 package cn.iamwsll.aicode.ai;
 
-import cn.iamwsll.aicode.ai.tools.*;
+import cn.iamwsll.aicode.ai.guardrail.PromptSafetyInputGuardrail;
+import cn.iamwsll.aicode.ai.tools.ToolManager;
 import cn.iamwsll.aicode.exception.BusinessException;
 import cn.iamwsll.aicode.exception.ErrorCode;
 import cn.iamwsll.aicode.model.enums.CodeGenTypeEnum;
@@ -120,6 +121,8 @@ public class AiCodeGeneratorServiceFactory {
                         .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                                 toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                         ))
+                        .inputGuardrails(new PromptSafetyInputGuardrail())  // 添加输入护轨
+//                        .outputGuardrails(new RetryOutputGuardrail())
                         .build();
             }
             // HTML 和多文件生成使用默认模型
@@ -129,6 +132,8 @@ public class AiCodeGeneratorServiceFactory {
                         .chatModel(chatModel)
                         .streamingChatModel(openAiStreamingChatModel)
                         .chatMemory(chatMemory)
+                        .inputGuardrails(new PromptSafetyInputGuardrail())  // 添加输入护轨
+//                        .outputGuardrails(new RetryOutputGuardrail())
                         .build();
             }
             default -> throw new BusinessException(ErrorCode.SYSTEM_ERROR,

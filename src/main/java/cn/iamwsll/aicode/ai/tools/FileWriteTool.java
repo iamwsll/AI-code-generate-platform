@@ -65,7 +65,7 @@ public class FileWriteTool extends BaseTool {
 
     @Override
     public String getDisplayName() {
-        return "写入文件";
+        return "写入文件,时间较长请稍等";
     }
 
     @Override
