@@ -49,7 +49,7 @@ public class OpenAiStreamingChatModel implements StreamingChatModel {
                 .apiKey(builder.apiKey)
                 .organizationId(builder.organizationId)
                 .projectId(builder.projectId)
-                .connectTimeout(getOrDefault(builder.timeout, ofSeconds(60)))
+                .connectTimeout(getOrDefault(builder.timeout, ofSeconds(300)))
                 .readTimeout(getOrDefault(builder.timeout, ofSeconds(300)))
                 .logRequests(getOrDefault(builder.logRequests, false))
                 .logResponses(getOrDefault(builder.logResponses, false))
