@@ -41,6 +41,17 @@ knife4j:
   setting:
     language: zh_cn
 
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+
 #以下是application-local.yml应该有的内容.不注释也会使用application-local.yml的.
 
 #langchain4j:
