@@ -29,6 +29,17 @@ server:
     session:
       cookie:
         max-age: 2592000 #chookie30天过期 最好要和session过期时间一致.注:这是前端的
+
+# 远程构建配置
+remote:
+  build:
+    enabled: false # 是否启用远程构建，默认false使用本地构建
+    server-url: http://localhost:8124 # 远程构建服务器地址
+    api-key: # API认证密钥（可选）
+    connect-timeout: 30 # 连接超时时间（秒）
+    read-timeout: 600 # 读取超时时间（秒）
+    max-retries: 3 # 最大重试次数
+
 #springdoc-openapi
 springdoc:
   group-configs:

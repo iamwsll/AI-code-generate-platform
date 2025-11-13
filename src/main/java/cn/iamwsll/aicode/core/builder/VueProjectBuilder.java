@@ -1,6 +1,9 @@
 package cn.iamwsll.aicode.core.builder;
 
 import cn.hutool.core.util.RuntimeUtil;
+import cn.iamwsll.aicode.config.RemoteBuildConfig;
+import cn.iamwsll.aicode.service.remote.RemoteBuildService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class VueProjectBuilder {
+
+    private final RemoteBuildConfig remoteBuildConfig;
+    private final RemoteBuildService remoteBuildService;
 
     /**
      * 异步构建项目（不阻塞主流程）
@@ -45,7 +52,23 @@ public class VueProjectBuilder {
             log.error("package.json 文件不存在: {}", packageJson.getAbsolutePath());
             return false;
         }
+        
         log.info("开始构建 Vue 项目: {}", projectPath);
+        
+        // 判断是否使用远程构建
+        if (remoteBuildConfig.isEnabled()) {
+            log.info("使用远程构建模式");
+            return buildProjectRemotely(projectDir);
+        } else {
+            log.info("使用本地构建模式");
+            return buildProjectLocally(projectDir);
+        }
+    }
+
+    /**
+     * 本地构建Vue项目
+     */
+    private boolean buildProjectLocally(File projectDir) {
         // 执行 npm install
         if (!executeNpmInstall(projectDir)) {
             log.error("npm install 执行失败");
@@ -64,6 +87,41 @@ public class VueProjectBuilder {
         }
         log.info("Vue 项目构建成功，dist 目录: {}", distDir.getAbsolutePath());
         return true;
+    }
+
+    /**
+     * 远程构建Vue项目
+     */
+    private boolean buildProjectRemotely(File projectDir) {
+        try {
+            // 检查远程构建服务是否可用
+            if (!remoteBuildService.isAvailable()) {
+                log.warn("远程构建服务不可用，回退到本地构建");
+                return buildProjectLocally(projectDir);
+            }
+
+            // 调用远程构建服务
+            boolean success = remoteBuildService.buildProject(projectDir);
+            
+            if (!success) {
+                log.warn("远程构建失败，回退到本地构建");
+                return buildProjectLocally(projectDir);
+            }
+
+            // 验证 dist 目录是否生成
+            File distDir = new File(projectDir, "dist");
+            if (!distDir.exists()) {
+                log.error("远程构建完成但 dist 目录未生成: {}", distDir.getAbsolutePath());
+                return false;
+            }
+
+            log.info("远程构建成功，dist 目录: {}", distDir.getAbsolutePath());
+            return true;
+
+        } catch (Exception e) {
+            log.error("远程构建异常，回退到本地构建: {}", e.getMessage(), e);
+            return buildProjectLocally(projectDir);
+        }
     }
 
 
