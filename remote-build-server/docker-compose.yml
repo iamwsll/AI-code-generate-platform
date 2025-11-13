@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  remote-build-server:
+    build: .
+    container_name: remote-build-server
+    ports:
+      - "8124:8124"
+    environment:
+      - PORT=8124
+      - API_KEY=${API_KEY:-}  # 从环境变量读取，或使用空值
+    volumes:
+      - ./workspace:/app/workspace  # 持久化工作目录（可选）
+    restart: unless-stopped
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G

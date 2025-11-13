@@ -1,0 +1,20 @@
+# 忽略依赖
+node_modules/
+
+# 忽略工作目录
+workspace/
+
+# 忽略日志
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 忽略临时文件
+*.tmp
+*.temp
+.DS_Store
+
+# 忽略PM2相关文件
+.pm2/
+ecosystem.config.js
