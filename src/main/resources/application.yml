@@ -41,7 +41,7 @@ knife4j:
   setting:
     language: zh_cn
 
-#以下是application-local.yml应该有的内容.不注释也会使用application-local.yml的.
+#以下是application-local.yml/application-prod.yml应该有的内容.不注释也会使用application-local.yml的.
 
 #langchain4j:
 #  open-ai:
@@ -94,7 +94,25 @@ knife4j:
 #dashscope:
 #  api-key: your dashscope api key
 #  image-model: wan2.2-t2i-flash
-
+#remote:
+#  build:
+#    enabled: false
+#    host: npm打包机器的ip
+#    user: 用户名
+#    ssh-key: ~/.ssh/id_ed25519   # 如用默认密钥且 ssh-agent 已托管，可留空
+#    work-dir: /opt/remote-code-build
+#    npm-command: npm
+#    node-options: "--max_old_space_size=512"
+#    sync-timeout-seconds: 180
+#    build-timeout-seconds: 900
+#    fetch-timeout-seconds: 180
+#    cleanup-timeout-seconds: 60
+#    keep-remote-workspace: false
+#    # 如需非22端口：ssh-command: "ssh -p 2222"
+#
+#url2pic:
+#  api-url: https://url2pic.php127.com/api/url2pic
+#  api-key: 你的apikey
 
 
 
