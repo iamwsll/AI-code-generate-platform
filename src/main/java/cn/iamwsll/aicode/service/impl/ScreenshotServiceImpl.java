@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -101,10 +103,23 @@ public class ScreenshotServiceImpl implements ScreenshotService {
         HttpUtil.downloadFile(downloadLink, FileUtil.file(pngPath));
         ThrowUtils.throwIf(!FileUtil.exist(pngPath), ErrorCode.OPERATION_ERROR, "下载截图失败");
 
+        // 只保留顶部 810 像素区域
+        BufferedImage image = ImgUtil.read(FileUtil.file(pngPath));
+        int cropHeight = Math.min(810, image.getHeight());
+        String croppedPngPath = rootPath + File.separator + RandomUtil.randomNumbers(5) + "_cropped.png";
+        ImgUtil.cut(
+                image,
+                FileUtil.file(croppedPngPath),
+                new Rectangle(0, 0, image.getWidth(), cropHeight)
+        );
+
         // 转换为 jpg 以减少体积并与现有命名保持一致
         String compressedPath = rootPath + File.separator + RandomUtil.randomNumbers(5) + "_compressed.jpg";
-        ImgUtil.convert(FileUtil.file(pngPath), FileUtil.file(compressedPath));
+        ImgUtil.convert(FileUtil.file(croppedPngPath), FileUtil.file(compressedPath));
+
+        // 清理中间文件
         FileUtil.del(pngPath);
+        FileUtil.del(croppedPngPath);
         return compressedPath;
     }
 
