@@ -56,26 +56,27 @@ const handleViewWork = () => {
 
 <style scoped>
 .app-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
+  background: #fffaf4;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 10px 10px 0 rgba(11, 15, 26, 0.08);
+  border: 2px solid rgba(11, 15, 26, 0.08);
   transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+    transform 0.2s,
+    box-shadow 0.2s,
+    border 0.2s;
   cursor: pointer;
 }
 
 .app-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+  transform: translate3d(0, -6px, 0);
+  box-shadow: 14px 14px 0 rgba(11, 15, 26, 0.12);
+  border-color: rgba(11, 15, 26, 0.2);
 }
 
 .app-preview {
   height: 180px;
-  background: #f5f5f5;
+  background: #f3efe9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +92,7 @@ const handleViewWork = () => {
 
 .app-placeholder {
   font-size: 48px;
-  color: #d9d9d9;
+  color: rgba(11, 15, 26, 0.3);
 }
 
 .app-overlay {
@@ -100,12 +101,12 @@ const handleViewWork = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(11, 15, 26, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 
 .app-card:hover .app-overlay {
@@ -117,6 +118,7 @@ const handleViewWork = () => {
   display: flex;
   align-items: center;
   gap: 12px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .app-info-left {
@@ -132,7 +134,7 @@ const handleViewWork = () => {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 4px;
-  color: #1a1a1a;
+  color: #0b0f1a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -140,10 +142,16 @@ const handleViewWork = () => {
 
 .app-author {
   font-size: 14px;
-  color: #666;
+  color: #5f6575;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.app-card--featured {
+  background: #ffffff;
+  border-color: rgba(255, 107, 44, 0.25);
+  box-shadow: 10px 10px 0 rgba(255, 107, 44, 0.18);
 }
 </style>

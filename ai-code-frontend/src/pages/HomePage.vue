@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useLoginUserStore } from '@/stores/loginUser'
-import { addApp, listMyAppVoByPage, listGoodAppVoByPage } from '@/api/appController'
+import { addApp, listGoodAppVoByPage, listMyAppVoByPage } from '@/api/appController'
 import { getDeployUrl } from '@/config/env'
 import AppCard from '@/components/AppCard.vue'
 
@@ -135,24 +135,6 @@ const viewWork = (app: API.AppVO) => {
 onMounted(() => {
   loadMyApps()
   loadFeaturedApps()
-
-  // 鼠标跟随光效
-  const handleMouseMove = (e: MouseEvent) => {
-    const { clientX, clientY } = e
-    const { innerWidth, innerHeight } = window
-    const x = (clientX / innerWidth) * 100
-    const y = (clientY / innerHeight) * 100
-
-    document.documentElement.style.setProperty('--mouse-x', `${x}%`)
-    document.documentElement.style.setProperty('--mouse-y', `${y}%`)
-  }
-
-  document.addEventListener('mousemove', handleMouseMove)
-
-  // 清理事件监听器
-  return () => {
-    document.removeEventListener('mousemove', handleMouseMove)
-  }
 })
 </script>
 
@@ -161,8 +143,23 @@ onMounted(() => {
     <div class="container">
       <!-- 网站标题和描述 -->
       <div class="hero-section">
+        <div class="hero-badge">Beta · 一句话生成网站</div>
         <h1 class="hero-title">零代码生成平台</h1>
-        <p class="hero-description">用自然语言创建网站应用</p>
+        <p class="hero-description">把你的想法，直接变成可运行的网页应用</p>
+        <div class="hero-metrics">
+          <div class="metric">
+            <span class="metric-value">自然语言</span>
+            <span class="metric-label">描述即可生成</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">可视作品</span>
+            <span class="metric-label">一键打开链接</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">可持续迭代</span>
+            <span class="metric-label">继续对话改版</span>
+          </div>
+        </div>
       </div>
 
       <!-- 用户提示词输入框 -->
@@ -174,6 +171,7 @@ onMounted(() => {
           :maxlength="1000"
           class="prompt-input"
         />
+        <div class="prompt-hint">提示：描述风格、页面结构、功能模块越具体越好</div>
         <div class="input-actions">
           <a-button type="primary" size="large" @click="createApp" :loading="creating">
             <template #icon>
@@ -220,6 +218,9 @@ onMounted(() => {
             )
           "
           >作品展示网站</a-button
+        >
+        <a-button type="default" @click="setPrompt('创建一个简单的个人博客网站，不超过20行')"
+          >简单博客网站</a-button
         >
       </div>
 
@@ -282,241 +283,220 @@ onMounted(() => {
   padding: 0;
   min-height: 100vh;
   background:
-    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 8%, #e2e8f0 20%, #cbd5e1 100%),
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+    radial-gradient(1200px 600px at 10% -10%, rgba(255, 107, 44, 0.25), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(43, 124, 255, 0.22), transparent 55%),
+    linear-gradient(180deg, #fff7ee 0%, #f6f1e9 45%, #eef1f6 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* 科技感网格背景 */
+/* 细线条纹理 */
 #homePage::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-image:
-    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
-  background-size:
-    100px 100px,
-    100px 100px,
-    20px 20px,
-    20px 20px;
+    repeating-linear-gradient(
+      120deg,
+      rgba(11, 15, 26, 0.04) 0,
+      rgba(11, 15, 26, 0.04) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      300deg,
+      rgba(11, 15, 26, 0.03) 0,
+      rgba(11, 15, 26, 0.03) 1px,
+      transparent 1px,
+      transparent 48px
+    );
   pointer-events: none;
-  animation: gridFloat 20s ease-in-out infinite;
+  opacity: 0.6;
 }
 
-/* 动态光效 */
+/* 浮动块 */
 #homePage::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: -10% 0 0 -10%;
   background:
-    radial-gradient(
-      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(59, 130, 246, 0.08) 0%,
-      rgba(139, 92, 246, 0.06) 40%,
-      transparent 80%
-    ),
-    linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.04) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(139, 92, 246, 0.04) 50%, transparent 70%);
+    radial-gradient(200px 160px at 12% 25%, rgba(255, 107, 44, 0.35), transparent 70%),
+    radial-gradient(240px 190px at 85% 15%, rgba(43, 124, 255, 0.25), transparent 70%),
+    radial-gradient(180px 140px at 70% 70%, rgba(24, 184, 146, 0.2), transparent 70%);
   pointer-events: none;
-  animation: lightPulse 8s ease-in-out infinite alternate;
+  filter: blur(10px);
+  animation: floatGlow 16s ease-in-out infinite;
 }
 
-@keyframes gridFloat {
+@keyframes floatGlow {
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.7;
   }
   50% {
-    transform: translate(5px, 5px);
-  }
-}
-
-@keyframes lightPulse {
-  0% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.7;
+    transform: translate3d(16px, -12px, 0) scale(1.03);
+    opacity: 0.95;
   }
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
   position: relative;
   z-index: 2;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* 移除居中光束效果 */
-
 /* 英雄区域 */
 .hero-section {
-  text-align: center;
-  padding: 80px 0 60px;
-  margin-bottom: 28px;
-  color: #1e293b;
+  text-align: left;
+  padding: 96px 0 48px;
+  margin-bottom: 24px;
+  color: var(--ink-1);
   position: relative;
   overflow: hidden;
 }
 
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(ellipse 800px 400px at center, rgba(59, 130, 246, 0.12) 0%, transparent 70%),
-    linear-gradient(45deg, transparent 30%, rgba(139, 92, 246, 0.05) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(16, 185, 129, 0.04) 50%, transparent 70%);
-  animation: heroGlow 10s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlow {
-  0% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 15, 26, 0.15);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  color: var(--ink-2);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-2);
 }
 
 .hero-title {
-  font-size: 56px;
+  font-size: 60px;
   font-weight: 700;
   margin: 0 0 20px;
   line-height: 1.2;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #10b981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   position: relative;
   z-index: 2;
-  animation: titleShimmer 3s ease-in-out infinite;
-}
-
-@keyframes titleShimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  text-shadow: 6px 6px 0 rgba(255, 107, 44, 0.08);
 }
 
 .hero-description {
-  font-size: 20px;
+  font-size: 18px;
   margin: 0;
-  opacity: 0.8;
-  color: #64748b;
+  color: var(--muted-1);
   position: relative;
   z-index: 2;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  max-width: 820px;
+}
+
+.metric {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--stroke-1);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-2);
+}
+
+.metric-value {
+  font-weight: 600;
+  color: var(--ink-1);
+  font-size: 16px;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: var(--muted-1);
 }
 
 /* 输入区域 */
 .input-section {
   position: relative;
   margin: 0 auto 24px;
-  max-width: 800px;
+  max-width: 820px;
 }
 
 .prompt-input {
-  border-radius: 16px;
-  border: none;
+  border-radius: 18px;
+  border: 2px solid rgba(11, 15, 26, 0.12);
   font-size: 16px;
-  padding: 20px 60px 20px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 22px 70px 22px 20px;
+  background: #ffffff;
+  box-shadow: var(--shadow-1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .prompt-input:focus {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.2);
+  transform: translate3d(0, -2px, 0);
 }
 
 .input-actions {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  bottom: 14px;
+  right: 14px;
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.prompt-hint {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted-1);
+  text-align: left;
+}
+
+.input-actions :deep(.ant-btn-primary) {
+  border-radius: 12px;
+  background: var(--ink-1);
+  border: 2px solid var(--ink-1);
+  box-shadow: 6px 6px 0 rgba(255, 107, 44, 0.2);
 }
 
 /* 快捷按钮 */
 .quick-actions {
   display: flex;
   gap: 12px;
-  justify-content: center;
-  margin-bottom: 60px;
+  justify-content: flex-start;
+  margin: 20px 0 60px;
   flex-wrap: wrap;
 }
 
 .quick-actions .ant-btn {
-  border-radius: 25px;
-  padding: 8px 20px;
+  border-radius: 999px;
+  padding: 8px 18px;
   height: auto;
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  color: #475569;
-  backdrop-filter: blur(15px);
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.quick-actions .ant-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-  transition: left 0.5s;
-}
-
-.quick-actions .ant-btn:hover::before {
-  left: 100%;
+  border: 1px solid rgba(11, 15, 26, 0.18);
+  color: var(--ink-2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border 0.2s ease;
 }
 
 .quick-actions .ant-btn:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(59, 130, 246, 0.4);
-  color: #3b82f6;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+  border-color: rgba(11, 15, 26, 0.45);
+  transform: translate3d(0, -2px, 0);
+  box-shadow: 8px 8px 0 rgba(43, 124, 255, 0.12);
 }
 
 /* 区域标题 */
@@ -525,10 +505,21 @@ onMounted(() => {
 }
 
 .section-title {
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 32px;
-  color: #1e293b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: var(--ink-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::after {
+  content: '';
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-1), transparent);
+  border-radius: 999px;
 }
 
 /* 我的作品网格 */
@@ -556,12 +547,20 @@ onMounted(() => {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 70px 0 32px;
+  }
+
   .hero-title {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .hero-description {
     font-size: 16px;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
   }
 
   .app-grid,
@@ -570,7 +569,7 @@ onMounted(() => {
   }
 
   .quick-actions {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 </style>

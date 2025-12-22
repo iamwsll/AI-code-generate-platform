@@ -53,7 +53,7 @@ import { useRouter } from 'vue-router'
 import { type MenuProps, message } from 'ant-design-vue'
 import { useLoginUserStore } from '@/stores/loginUser.ts'
 import { userLogout } from '@/api/userController.ts'
-import { LogoutOutlined, HomeOutlined } from '@ant-design/icons-vue'
+import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 
 const loginUserStore = useLoginUserStore()
 const router = useRouter()
@@ -133,7 +133,9 @@ const doLogout = async () => {
 
 <style scoped>
 .header {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(11, 15, 26, 0.08);
   padding: 0 24px;
 }
 
@@ -151,10 +153,29 @@ const doLogout = async () => {
 .site-title {
   margin: 0;
   font-size: 18px;
-  color: #1890ff;
+  color: #0b0f1a;
+  letter-spacing: 0.2px;
 }
 
-.ant-menu-horizontal {
+:deep(.ant-menu-horizontal) {
   border-bottom: none !important;
+  background: transparent;
+  font-weight: 500;
+  color: #2b3345;
+}
+
+:deep(.ant-menu-item-selected) {
+  color: #ff6b2c !important;
+}
+
+:deep(.ant-menu-item:hover) {
+  color: #2b7cff !important;
+}
+
+:deep(.ant-btn-primary) {
+  background: #0b0f1a;
+  border-color: #0b0f1a;
+  border-radius: 999px;
+  padding: 0 18px;
 }
 </style>
