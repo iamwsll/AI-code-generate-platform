@@ -1,7 +1,6 @@
 package cn.iamwsll.aicode.core.saver;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iamwsll.aicode.constant.AppConstant;
 import cn.iamwsll.aicode.exception.BusinessException;
@@ -13,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 代码保存器模板方法抽象类
- *
+ * 模板方法模式，提供的抽象模版方法
  * @param <T>
  */
 public abstract class CodeFileSaverTemplate<T> {

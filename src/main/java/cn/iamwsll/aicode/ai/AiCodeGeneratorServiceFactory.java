@@ -78,7 +78,7 @@ public class AiCodeGeneratorServiceFactory {
 
     /**
      * 根据 appId 和代码生成类型获取服务（带缓存）
-     * 这里的cache.get是:如果缓存中有,就返回缓存中的实例,没有就调用后面的createAiCodeGeneratorService方法创建一个新的实例并缓存起来
+     * 这里的cache.get是:如果Caffeine缓存中有,就返回缓存中的实例,没有就调用后面的createAiCodeGeneratorService方法创建一个新的实例并缓存起来
      */
     public AiCodeGeneratorService getAiCodeGeneratorService(long appId, CodeGenTypeEnum codeGenType) {
         String cacheKey = buildCacheKey(appId, codeGenType);
@@ -116,7 +116,7 @@ public class AiCodeGeneratorServiceFactory {
                 StreamingChatModel reasoningStreamingChatModel = SpringContextUtil.getBean("reasoningStreamingChatModelPrototype", StreamingChatModel.class);
                 yield AiServices.builder(AiCodeGeneratorService.class)
                         .streamingChatModel(reasoningStreamingChatModel)
-                        .chatMemoryProvider(memoryId -> chatMemory)
+                        .chatMemoryProvider(memoryId -> chatMemory)//工具调用里使用memoryId注解必须提供chatMemoryProvider
                         .tools(toolManager.getAllTools())
                         .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                                 toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()

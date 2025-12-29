@@ -323,7 +323,8 @@ public class AppController {
                             .build();
                 })
                 .concatWith(Mono.just(
-                        // 发送结束事件
+                        // 发送结束事件，否则默认触发客户端onclose，不能和异常断开的onclose区分
+                        //这样处理之后，前端就可以根据 `event == done`得知是正常结束的流
                         ServerSentEvent.<String>builder()
                                 .event("done")
                                 .data("")
