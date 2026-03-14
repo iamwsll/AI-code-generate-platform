@@ -102,3 +102,20 @@ ai-code/
 
 ---
 如需更多帮助，可在 Issues 中提出需求.
+
+---
+JVM参数，使之可以在2c2g的机器上勉强运行：
+nohup java \
+-Xms256m -Xmx256m \
+-XX:MaxMetaspaceSize=192m \
+-XX:CompressedClassSpaceSize=96m \
+-XX:ReservedCodeCacheSize=64m \
+-XX:MaxDirectMemorySize=64m \
+-XX:+UseG1GC \
+-XX:MaxGCPauseMillis=200 \
+-XX:+UseStringDeduplication \
+-javaagent://opt/1panel/www/sites/code.iamwsll.cn/AliyunJavaAgent/aliyun-java-agent.jar \
+-Darms.licenseKey=gguni5iigi@2f684fdf8203019 \
+-Darms.appName=ai-code-prod \
+-jar ./ai-code-0.2.1-SNAPSHOT.jar \
+--spring.profiles.active=prod > app.log 2>&1 &
